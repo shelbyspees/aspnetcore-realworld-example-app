@@ -16,13 +16,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 // Honeycomb.OpenTelemetry dependencies
-using OpenTelemetry;
-using OpenTelemetry.Collector.AspNetCore;
-using OpenTelemetry.Collector.Dependencies;
-using OpenTelemetry.Hosting;
 using Honeycomb;
-using Newtonsoft.Json;
+using Honeycomb.Models;
 using Honeycomb.OpenTelemetry;
+using OpenTelemetry.Trace.Configuration;
 
 namespace Conduit
 {
@@ -131,7 +128,7 @@ namespace Conduit
             services.AddJwt();
 
             // Honeycomb Setup
-            services.Configure<HoneycombApiSettings>(Configuration.GetSection("HoneycombSettings"));
+            services.Configure<HoneycombApiSettings>(_config.GetSection("HoneycombSettings"));
             services.AddHttpClient("honeycomb");
             services.AddSingleton<IHoneycombService, HoneycombService>();
             services.AddSingleton<HoneycombExporter>();
