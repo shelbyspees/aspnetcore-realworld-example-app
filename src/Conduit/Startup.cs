@@ -15,6 +15,14 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+// Honeycomb.OpenTelemetry dependencies
+using OpenTelemetry;
+using OpenTelemetry.Collector.AspNetCore;
+using OpenTelemetry.Collector.Dependencies;
+using OpenTelemetry.Hosting;
+using Honeycomb;
+using Newtonsoft.Json;
+using Honeycomb.OpenTelemetry;
 
 namespace Conduit
 {
@@ -121,6 +129,20 @@ namespace Conduit
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddJwt();
+
+            // Honeycomb Setup
+            services.Configure<HoneycombApiSettings>(Configuration.GetSection("HoneycombSettings"));
+            services.AddHttpClient("honeycomb");
+            services.AddSingleton<IHoneycombService, HoneycombService>();
+            services.AddSingleton<HoneycombExporter>();
+
+            // OpenTelemetry Setup
+            services.AddOpenTelemetry((sp, builder) =>
+            {
+                builder.UseHoneycomb(sp)
+                    .AddRequestCollector()
+                    .AddDependencyCollector();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
