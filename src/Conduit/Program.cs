@@ -10,6 +10,7 @@ namespace Conduit
             // read database configuration (database provider + database connection) from environment variables
             var config = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
+                .AddJsonFile("shelbytest.json", optional: true, reloadOnChange: true)
                 .Build();
 
             var host = new WebHostBuilder()

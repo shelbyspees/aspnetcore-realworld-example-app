@@ -1,0 +1,15 @@
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Trace",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "HoneycombSettings": {
+        "TeamId": "MY_API_KEY",
+        "DefaultDataSet": "realworld-dotnet",
+        "BatchSize": 100,
+        "SendFrequency": 10000
+    }
+}
